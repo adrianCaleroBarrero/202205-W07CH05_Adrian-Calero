@@ -3,10 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 // import path from 'path'
 
-import homeRouter from './router/home.js';
-import { taskRouter } from './router/task.js';
-import { notesRouter } from './router/notes.js';
-import { bookRouter } from './router/book.js';
+import { robotRouter } from './router/robots.js';
 
 export const app = express();
 
@@ -28,10 +25,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/', homeRouter);
-app.use('/task', taskRouter);
-app.use('/notes', notesRouter);
-app.use('/books', bookRouter);
+app.use('/robots', robotRouter);
 
 app.use((error: Error, req: Request, resp: Response, next: NextFunction) => {
     req;
