@@ -12,12 +12,11 @@ export interface iRobot {
 }
 
 const robotSchema = new mongoose.Schema({
-    id: String,
-    name: String,
-    img: String,
-    velocity: Number,
-    resistence: Number,
-    date: String,
+    name: mongoose.SchemaTypes.String,
+    img: mongoose.SchemaTypes.String,
+    velocity: mongoose.SchemaTypes.Number,
+    resistence: mongoose.SchemaTypes.Number,
+    date: mongoose.SchemaTypes.String,
 });
 
-export const RobotModel = mongoose.model('Robot', robotSchema);
+export const RobotModel = mongoose.model('robot', robotSchema);
