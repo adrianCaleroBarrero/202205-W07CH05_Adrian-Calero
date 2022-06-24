@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { Model } from 'mongoose';
 
 export class MongooseController<T> {
     constructor(public model: Model<T>) {}
 
     async getAllController(req: Request, resp: Response) {
+        req;
         resp.setHeader('content-type', 'application/json');
         resp.end(JSON.stringify(await this.model.find()));
     }
@@ -21,15 +22,11 @@ export class MongooseController<T> {
         }
     }
 
-    async postController(req: Request, resp: Response, next: NextFunction) {
-        try {
-            const newItem = await this.model.create(req.body);
-            resp.setHeader('content-type', 'application/json');
-            resp.status(201);
-            resp.end(JSON.stringify(newItem));
-        } catch (error) {
-            next(error);
-        }
+    async postController(req: Request, resp: Response) {
+        const newItem = await this.model.create(req.body);
+        resp.setHeader('content-type', 'application/json');
+        resp.status(201);
+        resp.end(JSON.stringify(newItem));
     }
 
     async patchController(req: Request, resp: Response) {

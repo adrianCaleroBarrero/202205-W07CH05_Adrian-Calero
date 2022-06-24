@@ -1,9 +1,16 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import { mongooseConnect } from '../db/mongoose.js';
 
-dotenv.config();
+await mongooseConnect();
 
-await mongoose.connect(process.env.URL_MONGO as string);
+export interface iRobot {
+    name: string;
+    img: string;
+    velocity: number;
+    resistence: number;
+    date: string;
+}
+
 const robotSchema = new mongoose.Schema({
     id: String,
     name: String,
