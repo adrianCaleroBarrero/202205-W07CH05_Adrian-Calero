@@ -2,7 +2,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { Model } from 'mongoose';
 
-export class RobotController<T> {
+export class MongooseController<T> {
     constructor(public model: Model<T>) {}
 
     async getAllController(req: Request, resp: Response) {
