@@ -1,9 +1,11 @@
 export class RobotModel {
+  img: string;
   constructor(
     public name: string,
-    public img: string,
+    public date: string,
     public velocity: number,
-    public resistence: number,
-    public date: string
-  ) {}
+    public resistence: number
+  ) {
+    this.img = "./img/robot.png";
+  }
 }
