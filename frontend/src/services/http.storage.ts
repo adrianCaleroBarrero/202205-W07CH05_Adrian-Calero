@@ -1,4 +1,3 @@
-import produce from "immer";
 import { iRobot } from "../interfaces/robot";
 
 export class HttpStoreRobot {
@@ -12,7 +11,7 @@ export class HttpStoreRobot {
   }
 
   getRobot(robot: iRobot): Promise<iRobot> {
-    return fetch(this.url + `/${robot.id}`).then((resp) => resp.json());
+    return fetch(this.url + `/${robot._id}`).then((resp) => resp.json());
   }
 
   addRobot(robot: iRobot): Promise<iRobot> {
@@ -26,7 +25,7 @@ export class HttpStoreRobot {
   }
 
   updateRobot(robot: iRobot): Promise<iRobot> {
-    return fetch(this.url + `/${robot.id}`, {
+    return fetch(this.url + `/${robot._id}`, {
       method: "PATCH",
       body: JSON.stringify(robot),
       headers: {
@@ -36,7 +35,8 @@ export class HttpStoreRobot {
   }
 
   deleteRobot(robot: iRobot): Promise<number> {
-    return fetch(this.url + `/${robot.id}`, {
+    console.log(robot._id);
+    return fetch(this.url + `/${robot._id}`, {
       method: "DELETE",
     }).then((resp) => resp.status);
   }

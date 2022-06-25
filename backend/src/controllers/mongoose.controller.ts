@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Request, Response } from 'express';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 
 export class MongooseController<T> {
     constructor(public model: Model<T>) {}
@@ -39,6 +39,10 @@ export class MongooseController<T> {
     };
 
     deleteController = async (req: Request, resp: Response) => {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id))
+            return resp
+                .status(404)
+                .json({ msg: `No task with id :${req.params.id}` });
         const deleteItem = await this.model.findByIdAndDelete(req.params.id);
         resp.end(JSON.stringify(deleteItem));
     };
