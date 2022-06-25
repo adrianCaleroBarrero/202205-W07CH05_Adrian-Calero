@@ -1,5 +1,5 @@
 export interface iRobot {
-  id: string;
+  id?: string;
   name: string;
   img: string;
   velocity: number;
