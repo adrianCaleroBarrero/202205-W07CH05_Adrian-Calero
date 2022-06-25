@@ -4,7 +4,7 @@ import { iRobot } from "../../interfaces/robot";
 import { HttpStoreRobot } from "../../services/http.storage";
 import { iStore } from "../../store/store";
 import * as ac from "../../redux/action.creators";
-import { Card } from "../card/card";
+import { CardList } from "../card/card";
 
 export function List() {
   const api = new HttpStoreRobot();
@@ -18,7 +18,7 @@ export function List() {
   return (
     <ul className="list__robots">
       {robots.map((robot) => (
-        <Card key={robot.name} robot={robot} />
+        <CardList key={robot.name} robot={robot} />
       ))}
     </ul>
   );

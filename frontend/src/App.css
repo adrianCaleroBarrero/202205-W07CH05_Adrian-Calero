@@ -9,24 +9,10 @@ body {
 }
 ul {
   list-style: none;
-}
-
-li {
-  border: 1px solid black;
-  border-radius: 1rem;
-  margin: 1rem;
-}
-
-.list__robots {
-  display: flex;
-}
-
-.list__robots,
-li {
-  display: flex;
-}
-
-.list__robots,
-img {
-  width: 30vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 2rem;
+  grid-template-rows: 50% 50%;
+  row-gap: 2rem;
+  text-align: center;
 }
