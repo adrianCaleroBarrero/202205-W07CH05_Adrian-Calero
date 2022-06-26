@@ -4,7 +4,7 @@ import { iRobot } from "../interfaces/robot";
 
 describe("Given the RobotReducer", () => {
   const mockRobot = {
-    id: "1",
+    _id: "1",
     name: "test",
     img: "test",
     velocity: 1,
@@ -65,7 +65,7 @@ describe("Given the RobotReducer", () => {
 
   describe("When use deleteRobotAction", () => {
     test("Then it should render 1 mock", () => {
-      const mockRobot2 = { ...mockRobot, id: "2", name: "test2" };
+      const mockRobot2 = { ...mockRobot, _id: "2", name: "test2" };
       const initialState: iRobot[] = [mockRobot, mockRobot2];
 
       const newState = robotReducer(
