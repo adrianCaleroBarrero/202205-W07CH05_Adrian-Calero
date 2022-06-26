@@ -17,7 +17,7 @@ export function List() {
 
   return (
     <ul className="list__robots">
-      {robots.map((robot) => (
+      {robots?.map((robot) => (
         <CardList key={robot.name} robot={robot} />
       ))}
     </ul>
