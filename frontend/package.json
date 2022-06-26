@@ -47,5 +47,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/App.tsx",
+      "!src/index.tsx",
+      "!src/services/test-utils.tsx",
+      "!src/serviceWorker.ts",
+      "!src/reportWebVitals.ts",
+      "!src/redux/action.types.ts",
+      "!src/interfaces/*.ts",
+      "!src/react-app-env.d.ts"
+    ]
   }
 }
