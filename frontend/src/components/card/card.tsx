@@ -12,7 +12,6 @@ export function CardList({ robot }: { robot: iRobot }) {
   const dispatch = useDispatch();
 
   function HandleDelete() {
-    console.log(robot);
     api
       .deleteRobot(robot)
       .then((resp) => dispatch(ac.deleteRobotAction(robot)));
