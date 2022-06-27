@@ -13,10 +13,10 @@ export interface iUser {
 const userSchema = new mongoose.Schema({
     name: { type: mongoose.SchemaTypes.String, required: true },
     email: mongoose.SchemaTypes.String,
-    tasks: [
+    Robots: [
         {
             type: mongoose.Types.ObjectId,
-            ref: 'Task',
+            ref: 'Robot',
         },
     ],
 });
