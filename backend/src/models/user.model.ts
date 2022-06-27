@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import { mongooseConnect, RelationField } from '../db/mongoose.js';
 
-await mongooseConnect();
+(async () => {
+    await mongooseConnect();
+})();
 
 export interface iUser {
     id: string;
@@ -13,7 +15,7 @@ export interface iUser {
 const userSchema = new mongoose.Schema({
     name: { type: mongoose.SchemaTypes.String, required: true },
     email: mongoose.SchemaTypes.String,
-    Robots: [
+    robots: [
         {
             type: mongoose.Types.ObjectId,
             ref: 'Robot',

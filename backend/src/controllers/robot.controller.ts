@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import mongoose, { Model } from 'mongoose';
+import { User } from '../models/user.model.js';
 
 export class RobotController<iRobot> {
     constructor(public model: Model<iRobot>) {}
@@ -8,25 +9,59 @@ export class RobotController<iRobot> {
     getAllController = async (req: Request, resp: Response) => {
         req;
         resp.setHeader('content-type', 'application/json');
-        resp.end(JSON.stringify(await this.model.find()));
+        resp.send(JSON.stringify(await this.model.find()));
     };
 
-    getController = async (req: Request, resp: Response) => {
-        const result = await this.model.findById(req.params.id);
-        resp.setHeader('content-type', 'application/json');
-        if (result) {
-            resp.end(JSON.stringify(result));
-        } else {
-            resp.status(404);
-            resp.end(JSON.stringify({}));
+    getController = async (
+        req: Request,
+        resp: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const result = await this.model.findById(req.params.id);
+            if (req.params.id.length !== 24) {
+                throw new Error('Invalid ID');
+            }
+            resp.setHeader('content-type', 'application/json');
+            if (result) {
+                resp.send(JSON.stringify(result));
+            } else {
+                resp.status(404);
+                resp.send(JSON.stringify({}));
+            }
+        } catch (error) {
+            next(error);
         }
     };
 
-    postController = async (req: Request, resp: Response) => {
-        const newItem = await this.model.create(req.body);
-        resp.setHeader('content-type', 'application/json');
-        resp.status(201);
-        resp.end(JSON.stringify(newItem));
+    postController = async (
+        req: Request,
+        resp: Response,
+        next: NextFunction
+    ) => {
+        try {
+            const newItem = await this.model.create(req.body);
+            const user = await User.findById(req.body.owner);
+            if (!user) {
+                throw new Error('Need param owner with her id');
+            }
+
+            if (
+                !req.body.name &&
+                !req.body.date &&
+                !req.body.velocity &&
+                !req.body.resistance
+            ) {
+                throw new Error('Put her params');
+            }
+            user.robots = [...(user.robots as Array<iRobot>), newItem.id];
+            user.save();
+            resp.setHeader('content-type', 'application/json');
+            resp.status(201);
+            resp.send(JSON.stringify(newItem));
+        } catch (error) {
+            next(error);
+        }
     };
 
     patchController = async (req: Request, resp: Response) => {
@@ -35,7 +70,7 @@ export class RobotController<iRobot> {
             req.body
         );
         resp.setHeader('content-type', 'application/json');
-        resp.end(JSON.stringify(modifyItem));
+        resp.send(JSON.stringify(modifyItem));
     };
 
     deleteController = async (req: Request, resp: Response) => {
@@ -44,6 +79,6 @@ export class RobotController<iRobot> {
                 .status(404)
                 .json({ msg: `No task with id :${req.params.id}` });
         const deleteItem = await this.model.findByIdAndDelete(req.params.id);
-        resp.end(JSON.stringify(deleteItem));
+        resp.send(JSON.stringify(deleteItem));
     };
 }

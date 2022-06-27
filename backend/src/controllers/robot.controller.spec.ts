@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { RobotController } from './robot.controller';
 
@@ -6,6 +6,7 @@ describe('Given a instanciated controller mongoose', () => {
     let mongoose: RobotController<{}>;
     let req: Partial<Request>;
     let resp: Partial<Response>;
+    let next: NextFunction;
     let mockModel = {
         find: jest.fn(),
         findById: jest.fn(),
@@ -26,9 +27,11 @@ describe('Given a instanciated controller mongoose', () => {
 
         resp = {
             setHeader: jest.fn(),
-            end: jest.fn(),
+            send: jest.fn(),
             status: jest.fn(),
         };
+
+        next = jest.fn();
     });
 
     describe('When the method getAllController is called', () => {
@@ -56,7 +59,11 @@ describe('Given a instanciated controller mongoose', () => {
     describe('When the method postController is called', () => {
         test('Then create() to be called', async () => {
             mockModel.create.mockResolvedValue({});
-            await mongoose.postController(req as Request, resp as Response);
+            await mongoose.postController(
+                req as Request,
+                resp as Response,
+                next as NextFunction
+            );
             expect(mockModel.create).toHaveBeenCalled();
         });
     });
@@ -71,9 +78,11 @@ describe('Given a instanciated controller mongoose', () => {
 
     describe('When the method deleteController is called', () => {
         test('Then findByIdAndDelete() to be called', async () => {
-            mockModel.findByIdAndDelete.mockResolvedValue({});
+            mockModel.findByIdAndDelete = jest
+                .fn()
+                .mockResolvedValue({ status: 202 });
             await mongoose.deleteController(req as Request, resp as Response);
-            expect(mockModel.findByIdAndDelete).toHaveBeenCalled();
+            expect(resp.status).toHaveBeenCalledWith(202);
         });
     });
 });
