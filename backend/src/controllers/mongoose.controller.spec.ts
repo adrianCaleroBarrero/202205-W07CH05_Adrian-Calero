@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { MongooseController } from './mongoose.controller';
+import { RobotController } from './robot.controller';
 
 describe('Given a instanciated controller mongoose', () => {
-    let mongoose: MongooseController<{}>;
+    let mongoose: RobotController<{}>;
     let req: Partial<Request>;
     let resp: Partial<Response>;
     let mockModel = {
@@ -14,7 +14,7 @@ describe('Given a instanciated controller mongoose', () => {
         findByIdAndDelete: jest.fn(),
     };
     beforeEach(() => {
-        mongoose = new MongooseController(
+        mongoose = new RobotController(
             mockModel as unknown as mongoose.Model<{}>
         );
         req = {
