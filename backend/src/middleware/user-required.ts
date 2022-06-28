@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { ExtRequest } from '../interfaces/token';
-import { RobotModel } from '../models/robot.model';
+import { ExtRequest } from '../interfaces/token.js';
+import { RobotModel } from '../models/robot.model.js';
 
 export const userRequired = async (
     req: Request,

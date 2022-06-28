@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { ExtRequest, iTokenPayload } from '../interfaces/token';
+import { ExtRequest, iTokenPayload } from '../interfaces/token.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const loginRequired = (
     req: Request,

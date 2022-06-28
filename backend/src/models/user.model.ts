@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     passwd: { type: mongoose.SchemaTypes.String, required: true },
     robots: [
         {
-            type: mongoose.Types.ObjectId,
+            type: mongoose.SchemaTypes.ObjectId,
             ref: 'Robot',
         },
     ],

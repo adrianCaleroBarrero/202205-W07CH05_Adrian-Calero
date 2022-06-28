@@ -19,7 +19,7 @@ export class HttpStoreRobot {
       method: "POST",
       body: JSON.stringify(robot),
       headers: {
-        "content-type": "application/json",
+        "Content-type": "application/json",
       },
     }).then((resp) => resp.json());
   }
@@ -29,7 +29,7 @@ export class HttpStoreRobot {
       method: "PATCH",
       body: JSON.stringify(robot),
       headers: {
-        "content-type": "application/json",
+        "Content-type": "application/json",
       },
     }).then((resp) => resp.json());
   }

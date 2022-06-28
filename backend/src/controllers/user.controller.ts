@@ -1,14 +1,18 @@
 /* eslint-disable no-unused-vars */
-import { NextFunction, Request, response, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import mongoose, { HydratedDocument, Model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import { iTokenPayload } from '../interfaces/token';
+dotenv.config();
+
 export class UserController<iUser> {
     constructor(public model: Model<iUser>) {}
 
     getAllController = async (req: Request, resp: Response) => {
         req;
-        resp.setHeader('content-type', 'application/json');
+        resp.setHeader('Content-type', 'application/json');
         resp.end(
             JSON.stringify(
                 await this.model.find().populate('robots', { owner: 0 })
@@ -20,7 +24,7 @@ export class UserController<iUser> {
         const result = await this.model
             .findById(req.params.id)
             .populate('robots', { owner: 0 });
-        resp.setHeader('content-type', 'application/json');
+        resp.setHeader('Content-type', 'application/json');
         if (result) {
             resp.end(JSON.stringify(result));
         } else {
@@ -36,15 +40,15 @@ export class UserController<iUser> {
     ) => {
         let newItem: HydratedDocument<any>;
         try {
-            req.params.id = await bcrypt.hash(req.body.passwd, 10);
+            req.body.passwd = await bcrypt.hash(req.body.passwd, 10);
             newItem = await this.model.create(req.body);
         } catch (error) {
             next(error);
             return;
         }
-        resp.setHeader('content-type', 'application/json');
+        resp.setHeader('Content-type', 'application/json');
         resp.status(201);
-        resp.end(JSON.stringify(newItem));
+        resp.send(JSON.stringify(newItem));
     };
 
     loginController = async (
@@ -55,21 +59,21 @@ export class UserController<iUser> {
         const findUser: any = await this.model.findOne({ name: req.body.name });
         if (
             !findUser ||
-            !(await bcrypt.compare(findUser.password, req.body.password))
+            !(await bcrypt.compare(req.body.passwd, findUser.passwd))
         ) {
             const error = new Error('Invalid user or password');
             error.name = 'UserAuthorizationError';
             next(error);
             return;
         }
-        const tokenPayload = {
+        const tokenPayload: iTokenPayload = {
             id: findUser.id,
             name: findUser.name,
         };
         const token = jwt.sign(tokenPayload, process.env.SECRET as string);
-        resp.setHeader('content-type', 'application/json');
+        resp.setHeader('Content-type', 'application/json');
         resp.status(201);
-        response.send(JSON.stringify({ token, id: findUser.id }));
+        resp.send({ token, id: findUser.id });
     };
 
     patchController = async (req: Request, resp: Response) => {
@@ -77,7 +81,7 @@ export class UserController<iUser> {
             req.params.id,
             req.body
         );
-        resp.setHeader('content-type', 'application/json');
+        resp.setHeader('Content-type', 'application/json');
         resp.send(JSON.stringify(modifyItem));
     };
 

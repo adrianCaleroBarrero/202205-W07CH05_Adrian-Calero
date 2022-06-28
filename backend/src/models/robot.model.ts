@@ -22,7 +22,7 @@ const robotSchema = new mongoose.Schema({
     date: mongoose.SchemaTypes.String,
     owner: [
         {
-            type: mongoose.Types.ObjectId,
+            type: mongoose.SchemaTypes.ObjectId,
             ref: 'User',
         },
     ],
