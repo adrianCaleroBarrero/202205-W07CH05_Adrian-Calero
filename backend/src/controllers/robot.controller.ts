@@ -8,8 +8,12 @@ export class RobotController<iRobot> {
 
     getAllController = async (req: Request, resp: Response) => {
         req;
-        resp.setHeader('content-type', 'application/json');
-        resp.send(JSON.stringify(await this.model.find()));
+        resp.setHeader('Content-type', 'application/json');
+        resp.send(
+            JSON.stringify(
+                await this.model.find().populate('owner', { robots: 0 })
+            )
+        );
     };
 
     getController = async (
@@ -18,11 +22,13 @@ export class RobotController<iRobot> {
         next: NextFunction
     ) => {
         try {
-            const result = await this.model.findById(req.params.id);
+            const result = await this.model
+                .findById(req.params.id)
+                .populate('owner', { robots: 0 });
             if (req.params.id.length !== 24) {
                 throw new Error('Invalid ID');
             }
-            resp.setHeader('content-type', 'application/json');
+            resp.setHeader('Content-type', 'application/json');
             if (result) {
                 resp.send(JSON.stringify(result));
             } else {
@@ -56,7 +62,7 @@ export class RobotController<iRobot> {
             }
             user.robots = [...(user.robots as Array<iRobot>), newItem.id];
             user.save();
-            resp.setHeader('content-type', 'application/json');
+            resp.setHeader('Content-type', 'application/json');
             resp.status(201);
             resp.send(JSON.stringify(newItem));
         } catch (error) {
@@ -69,7 +75,7 @@ export class RobotController<iRobot> {
             req.params.id,
             req.body
         );
-        resp.setHeader('content-type', 'application/json');
+        resp.setHeader('Content-type', 'application/json');
         resp.send(JSON.stringify(modifyItem));
     };
 

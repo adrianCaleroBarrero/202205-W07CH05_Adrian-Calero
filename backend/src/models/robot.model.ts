@@ -22,10 +22,10 @@ const robotSchema = new mongoose.Schema({
     date: mongoose.SchemaTypes.String,
     owner: [
         {
-            type: mongoose.Types.ObjectId,
+            type: mongoose.SchemaTypes.ObjectId,
             ref: 'User',
         },
     ],
 });
 
-export const RobotModel = mongoose.model('robot', robotSchema);
+export const RobotModel = mongoose.model('Robot', robotSchema);
