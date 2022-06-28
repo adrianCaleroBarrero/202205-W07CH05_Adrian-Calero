@@ -28,4 +28,4 @@ const robotSchema = new mongoose.Schema({
     ],
 });
 
-export const RobotModel = mongoose.model('robot', robotSchema);
+export const RobotModel = mongoose.model('Robot', robotSchema);

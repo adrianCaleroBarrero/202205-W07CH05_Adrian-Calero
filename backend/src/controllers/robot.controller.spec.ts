@@ -45,13 +45,21 @@ describe('Given a instanciated controller mongoose', () => {
     describe('When the method getController is called', () => {
         test('Then findById() to be called', async () => {
             mockModel.findById.mockResolvedValue({});
-            await mongoose.getController(req as Request, resp as Response);
+            await mongoose.getController(
+                req as Request,
+                resp as Response,
+                next as NextFunction
+            );
             expect(mockModel.findById).toHaveBeenCalled();
         });
 
         test('Then findById() to be called', async () => {
             mockModel.findById.mockResolvedValue(null);
-            await mongoose.getController(req as Request, resp as Response);
+            await mongoose.getController(
+                req as Request,
+                resp as Response,
+                next as NextFunction
+            );
             expect(mockModel.findById).toHaveBeenCalled();
         });
     });

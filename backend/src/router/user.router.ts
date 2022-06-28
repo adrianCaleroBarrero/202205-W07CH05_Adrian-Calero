@@ -8,5 +8,4 @@ export const userRouter = Router();
 userRouter.get('/', userController.getAllController);
 userRouter.get('/:id', userController.getController);
 userRouter.post('/', userController.postController);
-userRouter.patch('/:id', userController.patchController);
-userRouter.delete('/:id', userController.deleteController);
+userRouter.post('/login', userController.loginController);
