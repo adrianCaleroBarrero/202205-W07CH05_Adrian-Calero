@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
-import { mongooseConnect } from '../db/mongoose.js';
+import { mongooseConnect, RelationField } from '../db/mongoose.js';
 
-await mongooseConnect();
+(async () => {
+    await mongooseConnect();
+})();
 
 export interface iRobot {
     name: string;
@@ -9,6 +11,7 @@ export interface iRobot {
     velocity: number;
     resistence: number;
     date: string;
+    owner: Array<RelationField>;
 }
 
 const robotSchema = new mongoose.Schema({
@@ -17,6 +20,12 @@ const robotSchema = new mongoose.Schema({
     velocity: mongoose.SchemaTypes.Number,
     resistence: mongoose.SchemaTypes.Number,
     date: mongoose.SchemaTypes.String,
+    owner: [
+        {
+            type: mongoose.Types.ObjectId,
+            ref: 'User',
+        },
+    ],
 });
 
 export const RobotModel = mongoose.model('robot', robotSchema);

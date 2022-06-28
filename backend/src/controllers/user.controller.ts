@@ -2,8 +2,8 @@
 import { Request, Response } from 'express';
 import mongoose, { Model } from 'mongoose';
 
-export class MongooseController<T> {
-    constructor(public model: Model<T>) {}
+export class UserController<iUser> {
+    constructor(public model: Model<iUser>) {}
 
     getAllController = async (req: Request, resp: Response) => {
         req;
