@@ -52,12 +52,7 @@ export class RobotController<iRobot> {
                 throw new Error('Need param owner with her id');
             }
 
-            if (
-                !req.body.name &&
-                !req.body.date &&
-                !req.body.velocity &&
-                !req.body.resistance
-            ) {
+            if (!newItem) {
                 throw new Error('Put her params');
             }
             user.robots = [...(user.robots as Array<iRobot>), newItem.id];

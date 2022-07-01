@@ -11,7 +11,7 @@ export interface iRobot {
     velocity: number;
     resistence: number;
     date: string;
-    owner: Array<RelationField>;
+    owner: Array<RelationField> | null;
 }
 
 const robotSchema = new mongoose.Schema({
@@ -29,3 +29,4 @@ const robotSchema = new mongoose.Schema({
 });
 
 export const RobotModel = mongoose.model('Robot', robotSchema);
+

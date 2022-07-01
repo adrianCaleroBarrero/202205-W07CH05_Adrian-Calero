@@ -13,7 +13,7 @@ export class UserController<iUser> {
     getAllController = async (req: Request, resp: Response) => {
         req;
         resp.setHeader('Content-type', 'application/json');
-        resp.end(
+        resp.send(
             JSON.stringify(
                 await this.model.find().populate('robots', { owner: 0 })
             )
@@ -26,10 +26,10 @@ export class UserController<iUser> {
             .populate('robots', { owner: 0 });
         resp.setHeader('Content-type', 'application/json');
         if (result) {
-            resp.end(JSON.stringify(result));
+            resp.send(JSON.stringify(result));
         } else {
             resp.status(404);
-            resp.end(JSON.stringify({}));
+            resp.send(JSON.stringify({}));
         }
     };
 
@@ -42,6 +42,9 @@ export class UserController<iUser> {
         try {
             req.body.passwd = await bcrypt.hash(req.body.passwd, 10);
             newItem = await this.model.create(req.body);
+            if (!newItem) {
+                throw new Error('Need datas');
+            }
         } catch (error) {
             next(error);
             return;

@@ -9,7 +9,7 @@ export const userRequired = async (
 ) => {
     const userID = (req as unknown as ExtRequest).tokenPayload.id;
     const findRobot = await RobotModel.findById(req.params.id);
-    if (findRobot?.owner === userID) {
+    if (String(findRobot?.owner) === String(userID)) {
         next();
     } else {
         const error = new Error();
@@ -17,3 +17,4 @@ export const userRequired = async (
         next(error);
     }
 };
+

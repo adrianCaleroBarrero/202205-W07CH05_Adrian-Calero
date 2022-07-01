@@ -5,7 +5,7 @@ import { app } from './app.js';
 const PORT = process.env.PORT || 3200;
 
 app.set('port', PORT);
-const server = http.createServer(app);
+export const server = http.createServer(app);
 server.listen(PORT);
 
 const onError = (err: Error) => {
@@ -26,3 +26,4 @@ const onListening = () => {
 
 server.on('error', onError);
 server.on('listening', onListening);
+

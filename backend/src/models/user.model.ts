@@ -6,9 +6,9 @@ import { mongooseConnect, RelationField } from '../db/mongoose.js';
 })();
 
 export interface iUser {
-    id: string;
     name: string;
     email: string;
+    passwd: string;
     robots: Array<RelationField>;
 }
 
